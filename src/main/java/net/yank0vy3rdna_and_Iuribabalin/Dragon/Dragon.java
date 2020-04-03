@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Dragon implements StoredType, Serializable {
+    private Integer owner_id = null;
     static final long serialVersionUID = -7588980448693010399L;
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
