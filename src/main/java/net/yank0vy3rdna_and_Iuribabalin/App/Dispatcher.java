@@ -1,7 +1,7 @@
 package net.yank0vy3rdna_and_Iuribabalin.App;
 
 import net.yank0vy3rdna_and_Iuribabalin.Commands.CheckExecuts;
-import net.yank0vy3rdna_and_Iuribabalin.Commands.CommandSerializable;
+import net.yank0vy3rdna_and_Iuribabalin.Commands.CommandSerializer;
 import net.yank0vy3rdna_and_Iuribabalin.Commands.OutputCommand;
 import net.yank0vy3rdna_and_Iuribabalin.Dragon.DragonReader;
 import net.yank0vy3rdna_and_Iuribabalin.FileWork.FileReader;
@@ -16,13 +16,13 @@ import java.util.HashMap;
 public class Dispatcher {
     HashMap<String, ObjectExecute> commands;
     public DragonReader reader;
-    public CommandSerializable serialCommand;
+    public CommandSerializer serialCommand;
     public FileReader fileReader;
     public OutputCommand out;
     public CheckExecuts check;
 
 
-    public Dispatcher(HashMap<String, ObjectExecute> commands, DragonReader reder, CommandSerializable serialCommand,
+    public Dispatcher(HashMap<String, ObjectExecute> commands, DragonReader reder, CommandSerializer serialCommand,
                       FileReader fileReader, OutputCommand out, CheckExecuts check){
         this.reader = reder;
         this.commands = commands;

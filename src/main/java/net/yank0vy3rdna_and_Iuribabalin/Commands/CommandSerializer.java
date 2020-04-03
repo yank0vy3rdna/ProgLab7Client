@@ -4,7 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-public class CommandSerializable {
+public class CommandSerializer {
 
     public byte[] serializable(OutputCommand out) throws IOException {
 

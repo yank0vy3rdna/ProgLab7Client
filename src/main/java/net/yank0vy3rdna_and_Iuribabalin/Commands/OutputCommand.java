@@ -10,7 +10,7 @@ public class OutputCommand implements Serializable {
 
     private String[] args = null;
 
-    private Scanner scanner = null;
+    private transient Scanner scanner = null;
 
     private Dragon dragon = null;
 

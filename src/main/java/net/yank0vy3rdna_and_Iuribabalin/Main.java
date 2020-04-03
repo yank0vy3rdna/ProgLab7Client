@@ -4,7 +4,7 @@ import net.yank0vy3rdna_and_Iuribabalin.App.UI;
 import net.yank0vy3rdna_and_Iuribabalin.App.App;
 import net.yank0vy3rdna_and_Iuribabalin.App.Dispatcher;
 import net.yank0vy3rdna_and_Iuribabalin.Commands.CheckExecuts;
-import net.yank0vy3rdna_and_Iuribabalin.Commands.CommandSerializable;
+import net.yank0vy3rdna_and_Iuribabalin.Commands.CommandSerializer;
 import net.yank0vy3rdna_and_Iuribabalin.Commands.ExecuteScript;
 import net.yank0vy3rdna_and_Iuribabalin.Commands.OutputCommand;
 import net.yank0vy3rdna_and_Iuribabalin.Dragon.DragonReader;
@@ -25,7 +25,7 @@ public class Main {
         commands.put("update", new UpdateObject());
         commands.put("execute_script", new ExecuteScript());
 
-        App app = new App(new UI(), new Dispatcher(commands, new DragonReader(), new CommandSerializable(), new FileReader(), new OutputCommand(), new CheckExecuts()));
+        App app = new App(new UI(), new Dispatcher(commands, new DragonReader(), new CommandSerializer(), new FileReader(), new OutputCommand(), new CheckExecuts()));
 
         app.start();
     }
