@@ -10,8 +10,6 @@ public class OutputCommand implements Serializable {
 
     private String[] args = null;
 
-    private transient Scanner scanner = null;
-
     private Dragon dragon = null;
 
     private String execute_commands = null;
@@ -46,14 +44,6 @@ public class OutputCommand implements Serializable {
 
     public void setArgs(String[] args) {
         this.args = args;
-    }
-
-    public Scanner getScanner() {
-        return scanner;
-    }
-
-    public void setScanner(Scanner scanner) {
-        this.scanner = scanner;
     }
 }
 
