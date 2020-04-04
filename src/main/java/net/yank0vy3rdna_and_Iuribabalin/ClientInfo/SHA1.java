@@ -4,7 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class SHA1 {
-    public byte[] PasswordSHA1(byte[] password) throws NoSuchAlgorithmException {
+    public byte[] SHA(byte[] password) throws NoSuchAlgorithmException {
         MessageDigest sha1 = MessageDigest.getInstance("SHA-1");
         return sha1.digest(password);
     }

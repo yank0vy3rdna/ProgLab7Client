@@ -14,10 +14,11 @@ import net.yank0vy3rdna_and_Iuribabalin.MakeObject.ObjectExecute;
 import net.yank0vy3rdna_and_Iuribabalin.MakeObject.UpdateObject;
 
 import java.io.*;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 public class Main {
-    public static void main( String[] args ) throws IOException {
+    public static void main( String[] args ) throws IOException, NoSuchAlgorithmException {
 
         HashMap<String, ObjectExecute> commands = new HashMap<>();
         commands.put("add", new AddObjact());

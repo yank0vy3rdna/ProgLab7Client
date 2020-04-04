@@ -1,8 +1,12 @@
 package net.yank0vy3rdna_and_Iuribabalin.App;
 
+import net.yank0vy3rdna_and_Iuribabalin.ClientInfo.Client;
+import net.yank0vy3rdna_and_Iuribabalin.ClientInfo.PasswordGenerator;
+
 import java.io.*;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.security.NoSuchAlgorithmException;
 
 public class App {
 
@@ -15,7 +19,10 @@ public class App {
         this.dispatcher = dispatcher;
     }
 
-    public void start() throws IOException {
+    public void start() throws IOException, NoSuchAlgorithmException {
+
+        authorization();
+
         while(flag) {
             Socket socket = new Socket();
             try {
@@ -49,5 +56,22 @@ public class App {
 
     public void stopWork(){
         this.flag = false;
+    }
+
+    private void authorization() throws NoSuchAlgorithmException {
+        Client client = new Client();
+        ui.print("У вас есть учетная запись\nYes    No");
+        while (true){
+            String answ = ui.read();
+            if(answ.equals("YES")){
+                client.loginer(ui);
+                break;
+            }else if(answ.equals("NO")){
+                client.reg(ui);
+                break;
+            }else{
+                ui.print("Введите корректно Yes или No");
+            }
+        }
     }
 }

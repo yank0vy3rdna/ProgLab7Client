@@ -34,6 +34,10 @@ public class UI {
         return in.nextLine().toUpperCase();
     }
 
+    public String read(){
+        return in.nextLine().toUpperCase();
+    }
+
     public void print(String string){
         if(string == null)
             System.out.print("");
@@ -41,4 +45,13 @@ public class UI {
             System.out.println(string);
     }
 
+    public byte[] readUserName() {
+        System.out.print("Введите логин: ");
+        return in.nextLine().toUpperCase().getBytes();
+    }
+
+    public byte[] readPassword() {
+        System.out.print("Введите пароль: ");
+        return in.nextLine().toUpperCase().getBytes();
+    }
 }
