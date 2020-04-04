@@ -26,7 +26,7 @@ public class Main {
         commands.put("update", new UpdateObject());
         commands.put("execute_script", new ExecuteScript());
 
-        App app = new App(new UI(), new Dispatcher(commands, new DragonReader(), new CommandSerializer(), new FileReader(), new OutputCommand(), new CheckExecuts()));
+        App app = new App(new UI(), new Dispatcher(commands, new DragonReader(), new CommandSerializer(), new FileReader(), new CheckExecuts()));
 
         app.start();
     }

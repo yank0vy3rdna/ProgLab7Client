@@ -1,5 +1,6 @@
 package net.yank0vy3rdna_and_Iuribabalin.App;
 
+import net.yank0vy3rdna_and_Iuribabalin.ClientInfo.Client;
 import net.yank0vy3rdna_and_Iuribabalin.Commands.CheckExecuts;
 import net.yank0vy3rdna_and_Iuribabalin.Commands.CommandSerializer;
 import net.yank0vy3rdna_and_Iuribabalin.Commands.OutputCommand;
@@ -11,6 +12,7 @@ import java.io.*;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 public class Dispatcher {
@@ -18,23 +20,22 @@ public class Dispatcher {
     public DragonReader reader;
     public CommandSerializer serialCommand;
     public FileReader fileReader;
-    public OutputCommand out;
     public CheckExecuts check;
 
 
     public Dispatcher(HashMap<String, ObjectExecute> commands, DragonReader reder, CommandSerializer serialCommand,
-                      FileReader fileReader, OutputCommand out, CheckExecuts check){
+                      FileReader fileReader, CheckExecuts check){
         this.reader = reder;
         this.commands = commands;
         this.serialCommand = serialCommand;
-        this.out = out;
         this.fileReader = fileReader;
         this.check = check;
     }
 
-    public String dispatch(String clientCommand, Socket socket, App app) throws IOException {
+    public String dispatch(String clientCommand, Client client,Socket socket, App app) throws IOException {
         reader.setUI(new UI());
 
+        OutputCommand out = new OutputCommand();
         DataOutputStream oos = new DataOutputStream(socket.getOutputStream());
         DataInputStream ois = new DataInputStream(socket.getInputStream());
         String[] splitted = clientCommand.split(" ");
@@ -46,7 +47,24 @@ public class Dispatcher {
             byte[] outBytes;
             byte[] sizeBytes;
 
-            if (commands.get(clientCommand.split(" ")[0].toLowerCase()) != null) {
+            if(app.logFlag()){
+
+                outBytes = client.getName();
+                sizeBytes = ByteBuffer.allocate(4).putInt(outBytes.length).array();
+
+                oos.write(sizeBytes);
+                oos.write(outBytes);
+                oos.flush();
+
+                outBytes = client.getPass();
+                sizeBytes = ByteBuffer.allocate(4).putInt(outBytes.length).array();
+
+                oos.write(sizeBytes);
+                oos.write(outBytes);
+                oos.flush();
+
+                app.offLogFlag();
+            }else if (commands.get(clientCommand.split(" ")[0].toLowerCase()) != null) {
 
                 ObjectExecute doComm =  commands.get(clientCommand.split(" ")[0]);
                 doComm.exec(clientCommand,this);
@@ -73,8 +91,7 @@ public class Dispatcher {
                 app.stopWork();
 
                 return ois.readUTF();
-            }
-            else{
+            }else{
                 outBytes = serialCommand.serializable(out);
                 oos.write(outBytes);
                 oos.flush();

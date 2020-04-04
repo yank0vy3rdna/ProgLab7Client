@@ -1,7 +1,6 @@
 package net.yank0vy3rdna_and_Iuribabalin.App;
 
 import net.yank0vy3rdna_and_Iuribabalin.ClientInfo.Client;
-import net.yank0vy3rdna_and_Iuribabalin.ClientInfo.PasswordGenerator;
 
 import java.io.*;
 import java.net.ConnectException;
@@ -13,6 +12,7 @@ public class App {
     private final UI ui;
     private final Dispatcher dispatcher;
     private boolean flag = true;
+    private boolean logFlag = true;
 
     public App(UI ui, Dispatcher dispatcher){
         this.ui = ui;
@@ -21,10 +21,10 @@ public class App {
 
     public void start() throws IOException, NoSuchAlgorithmException {
 
-        authorization();
-
         while(flag) {
             Socket socket = new Socket();
+            Client client = new Client();
+            client.authorization(new UI());
             try {
                 BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                 String command = ui.getNextCommand(br);
@@ -32,7 +32,7 @@ public class App {
                     break;
                 }
                 socket = new Socket("127.0.0.1", 2323);
-                String answ = dispatcher.dispatch(command, socket, this);
+                String answ = dispatcher.dispatch(command,client ,socket, this);
                 if (answ.equals(">>")){
                     socket.close();
                     continue;
@@ -58,20 +58,12 @@ public class App {
         this.flag = false;
     }
 
-    private void authorization() throws NoSuchAlgorithmException {
-        Client client = new Client();
-        ui.print("У вас есть учетная запись\nYes    No");
-        while (true){
-            String answ = ui.read();
-            if(answ.equals("YES")){
-                client.loginer(ui);
-                break;
-            }else if(answ.equals("NO")){
-                client.reg(ui);
-                break;
-            }else{
-                ui.print("Введите корректно Yes или No");
-            }
-        }
+    public void offLogFlag(){
+        this.logFlag = false;
     }
+
+    public boolean logFlag() {
+        return logFlag;
+    }
+
 }
