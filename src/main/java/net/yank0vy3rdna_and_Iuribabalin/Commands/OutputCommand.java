@@ -6,13 +6,46 @@ import java.io.Serializable;
 import java.util.Scanner;
 
 public class OutputCommand implements Serializable {
+    private byte[] pass = null;
+
+    private String log = null;
+
+    private String email = null;
+
     private String command = null;
+
+    private transient Scanner scanner = null;
 
     private String[] args = null;
 
     private Dragon dragon = null;
 
     private String execute_commands = null;
+
+    public byte[] getPass() {
+        return pass;
+    }
+
+    public String getLog() {
+        return log;
+    }
+
+    public void setPass(byte[] pass) {
+        this.pass = pass;
+    }
+
+    public void setLog(String log) {
+        this.log = log;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 
     public void setCommand(String command) {
         this.command = command;
@@ -45,5 +78,12 @@ public class OutputCommand implements Serializable {
     public void setArgs(String[] args) {
         this.args = args;
     }
-}
 
+    public Scanner getScanner() {
+        return scanner;
+    }
+
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
+    }
+}

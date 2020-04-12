@@ -1,6 +1,7 @@
 package net.yank0vy3rdna_and_Iuribabalin.App;
 
 import net.yank0vy3rdna_and_Iuribabalin.ClientInfo.Client;
+import net.yank0vy3rdna_and_Iuribabalin.Commands.OutputCommand;
 
 import java.io.*;
 import java.net.ConnectException;
@@ -12,7 +13,6 @@ public class App {
     private final UI ui;
     private final Dispatcher dispatcher;
     private boolean flag = true;
-    private boolean logFlag = true;
 
     public App(UI ui, Dispatcher dispatcher){
         this.ui = ui;
@@ -20,11 +20,11 @@ public class App {
     }
 
     public void start() throws IOException, NoSuchAlgorithmException {
-
+        Client client = new Client();
+        client.authorization(new UI(), dispatcher, new OutputCommand());
         while(flag) {
+            OutputCommand out = new OutputCommand();
             Socket socket = new Socket();
-            Client client = new Client();
-            client.authorization(new UI());
             try {
                 BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                 String command = ui.getNextCommand(br);
@@ -32,7 +32,7 @@ public class App {
                     break;
                 }
                 socket = new Socket("127.0.0.1", 2323);
-                String answ = dispatcher.dispatch(command,client ,socket, this);
+                String answ = dispatcher.dispatch(command,socket, this, out);
                 if (answ.equals(">>")){
                     socket.close();
                     continue;
@@ -42,7 +42,6 @@ public class App {
                 socket.close();
 
             }catch (ConnectException ex){
-//                ex.printStackTrace();
                 ui.print("Server disconnect");
             }catch (EOFException ignored){
             }catch (NullPointerException ex){
@@ -56,14 +55,6 @@ public class App {
 
     public void stopWork(){
         this.flag = false;
-    }
-
-    public void offLogFlag(){
-        this.logFlag = false;
-    }
-
-    public boolean logFlag() {
-        return logFlag;
     }
 
 }

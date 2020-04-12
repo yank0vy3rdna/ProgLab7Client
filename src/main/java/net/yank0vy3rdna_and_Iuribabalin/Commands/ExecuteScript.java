@@ -7,12 +7,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class ExecuteScript implements ObjectExecute {
-    public void exec(String command, Dispatcher dispatcher) throws IOException {
+    public void exec(String command, Dispatcher dispatcher, OutputCommand out) throws IOException {
         try {
-            dispatcher.out.setExecute_commands(dispatcher.fileReader.inputCommandFile("resources/" + command.split(" ")[1]));
+            out.setExecute_commands(dispatcher.fileReader.inputCommandFile("resources/" + command.split(" ")[1]));
         }catch (FileNotFoundException ex){
             try {
-                dispatcher.out.setExecute_commands(dispatcher.fileReader.inputCommandFile("resources/" + command.split(" ")[1] + ".txt"));
+                out.setExecute_commands(dispatcher.fileReader.inputCommandFile("resources/" + command.split(" ")[1] + ".txt"));
             }catch (FileNotFoundException e) {
                 System.out.println("Такого файла не уществует");
             }

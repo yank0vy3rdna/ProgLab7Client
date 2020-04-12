@@ -45,13 +45,18 @@ public class UI {
             System.out.println(string);
     }
 
-    public byte[] readUserName() {
+    public String readUserName() {
         System.out.print("Введите логин: ");
-        return in.nextLine().toUpperCase().getBytes();
+        return in.nextLine();
     }
 
     public byte[] readPassword() {
         System.out.print("Введите пароль: ");
         return in.nextLine().toUpperCase().getBytes();
+    }
+
+    public String readEmail(){
+        System.out.print("Введите email: ");
+        return in.nextLine();
     }
 }
