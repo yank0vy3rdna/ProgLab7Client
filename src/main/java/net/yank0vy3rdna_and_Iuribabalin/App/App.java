@@ -20,8 +20,8 @@ public class App {
     }
 
     public void start() throws IOException, NoSuchAlgorithmException {
-        Client client = new Client();
-        client.authorization(new UI(), dispatcher, new OutputCommand());
+        /*Client client = new Client();
+        client.authorization(new UI(), dispatcher, new OutputCommand());*/
         while(flag) {
             OutputCommand out = new OutputCommand();
             Socket socket = new Socket();

@@ -62,17 +62,13 @@ public class Dispatcher {
                 System.out.println(out.getExecute_commands());
 
                 outBytes = serialCommand.serializable(out);
-                sizeBytes = ByteBuffer.allocate(4).putInt(outBytes.length).array();
 
-                oos.write(sizeBytes);
                 oos.write(outBytes);
                 oos.flush();
 
             }else if(clientCommand.equals("exit")){
                 outBytes = serialCommand.serializable(out);
-                sizeBytes = ByteBuffer.allocate(4).putInt(outBytes.length).array();
-
-                oos.write(sizeBytes);
+                ;
                 oos.write(outBytes);
                 oos.flush();
 

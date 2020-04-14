@@ -21,15 +21,17 @@ public class Client {
 
         while (true){
             try {
-                ui.print("У вас есть учетная запись [Y/N]");
+                System.out.print("У вас есть учетная запись [Y/N]");
 
                 byte[] outBytes;
-                byte[] sizeBytes;
+
                 String answ = ui.read().toUpperCase();
 
                 out.setCommand("authorization");
 
                 socket = new Socket("127.0.0.1", 2323);
+
+
                 if(!answ.isEmpty() && !answ.equals("Y") && !answ.equals("N"))
                     continue;
 
@@ -37,13 +39,11 @@ public class Client {
                     out.setLog(ui.readUserName());
                     out.setEmail(ui.readEmail());
 
+                    outBytes = dispatcher.serialCommand.serializable(out);
+
                     oos = new DataOutputStream(socket.getOutputStream());
                     ois = new DataInputStream(socket.getInputStream());
 
-                    outBytes = dispatcher.serialCommand.serializable(out);
-                    sizeBytes = ByteBuffer.allocate(4).putInt(outBytes.length).array();
-
-                    oos.write(sizeBytes);
                     oos.write(outBytes);
                     oos.flush();
 
@@ -56,13 +56,11 @@ public class Client {
                 dispatcher.setLog(out.getLog());
                 dispatcher.setPass(out.getPass());
 
+                outBytes = dispatcher.serialCommand.serializable(out);
+
                 oos = new DataOutputStream(socket.getOutputStream());
                 ois = new DataInputStream(socket.getInputStream());
 
-                outBytes = dispatcher.serialCommand.serializable(out);
-                sizeBytes = ByteBuffer.allocate(4).putInt(outBytes.length).array();
-
-                oos.write(sizeBytes);
                 oos.write(outBytes);
                 oos.flush();
 
