@@ -13,6 +13,7 @@ import java.io.*;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Dispatcher {
@@ -50,7 +51,6 @@ public class Dispatcher {
         out.setArgs(args);
         try {
             byte[] outBytes;
-            byte[] sizeBytes;
 
             if (commands.get(clientCommand.split(" ")[0].toLowerCase()) != null) {
 
@@ -62,14 +62,12 @@ public class Dispatcher {
                 System.out.println(out.getExecute_commands());
 
                 outBytes = serialCommand.serializable(out);
-
-                oos.write(outBytes);
+                oos.writeUTF(Arrays.toString(outBytes));
                 oos.flush();
 
             }else if(clientCommand.equals("exit")){
                 outBytes = serialCommand.serializable(out);
-                ;
-                oos.write(outBytes);
+                oos.writeUTF(Arrays.toString(outBytes));
                 oos.flush();
 
                 app.stopWork();
@@ -78,7 +76,7 @@ public class Dispatcher {
             }
             else{
                 outBytes = serialCommand.serializable(out);
-                oos.write(outBytes);
+                oos.writeUTF(Arrays.toString(outBytes));
                 oos.flush();
             }
         }catch (NullPointerException ex){
