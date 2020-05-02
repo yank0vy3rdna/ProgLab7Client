@@ -85,11 +85,7 @@ public class Dispatcher {
             return "Client off work";
         }
 
-        while (ois.available()==0){}
-
-        InputStream inputStream = socket.getInputStream();
-        byte[] bytes = new byte[ois.available()];
-        inputStream.read(bytes, 0, ois.available());
+        byte[] bytes = toByte(ois.readUTF().split(", "));
         String asw = new String(bytes, StandardCharsets.UTF_8);
 
         for(String s: asw.split("\n")){
@@ -109,5 +105,24 @@ public class Dispatcher {
 
     public void setLog(String log) {
         this.log = log;
+    }
+
+    private byte[] toByte(String[] str){
+        byte[] bytes = new byte[str.length];
+        String s = "-";
+
+        if(str[0].split("-").length == 2){
+            s += str[0].split("-")[1];
+            str[0] = s;
+        }else{
+            str[0] = str[0].replaceAll("[^0-9]", "");
+        }
+
+        str[str.length - 1] = str[str.length - 1].split("]")[0];
+
+        for(int i = 0;i< str.length;i++){
+            bytes[i] = Byte.parseByte(str[i]);
+        }
+        return bytes;
     }
 }
