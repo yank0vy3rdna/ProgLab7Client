@@ -72,7 +72,10 @@ public class Dispatcher {
 
                 app.stopWork();
 
-                return ois.readUTF();
+                byte[] bytes = toByte(ois.readUTF().split(", "));
+                String asw = new String(bytes, StandardCharsets.UTF_8);
+
+                return asw;
             }
             else{
                 outBytes = serialCommand.serializable(out);
