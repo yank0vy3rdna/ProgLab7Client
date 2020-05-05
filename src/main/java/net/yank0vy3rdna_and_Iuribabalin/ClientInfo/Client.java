@@ -13,6 +13,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.UUID;
 
 public class Client {
     public void authorization(UI ui, Dispatcher dispatcher, OutputCommand out) throws NoSuchAlgorithmException, IOException {
@@ -58,6 +59,9 @@ public class Client {
                 while(asw.equals("false")) {
                     out.setLog(ui.readUserName());
                     out.setPass(sha.SHA(ui.readPassword()));
+
+                    dispatcher.sessionID = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
+                    out.setSessionID(dispatcher.sessionID);
 
                     dispatcher.setLog(out.getLog());
                     dispatcher.setPass(out.getPass());

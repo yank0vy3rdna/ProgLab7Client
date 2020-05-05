@@ -8,6 +8,8 @@ import java.util.Scanner;
 public class OutputCommand implements Serializable {
     private byte[] pass = null;
 
+    private long sessionID = 0;
+
     private String log = null;
 
     private String email = null;
@@ -45,7 +47,6 @@ public class OutputCommand implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-
 
     public void setCommand(String command) {
         this.command = command;
@@ -85,5 +86,13 @@ public class OutputCommand implements Serializable {
 
     public void setScanner(Scanner scanner) {
         this.scanner = scanner;
+    }
+
+    public long getSessionID() {
+        return sessionID;
+    }
+
+    public void setSessionID(long in) {
+        this.sessionID = sessionID;
     }
 }

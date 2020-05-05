@@ -22,6 +22,7 @@ public class Dispatcher {
     public CommandSerializer serialCommand;
     public FileReader fileReader;
     public CheckExecuts check;
+    public long sessionID = 0;
 
     private String log = null;
     private byte[] pass = null;
@@ -41,6 +42,7 @@ public class Dispatcher {
 
         out.setLog(this.log);
         out.setPass(this.pass);
+        out.setSessionID(sessionID);
 
         DataOutputStream oos = new DataOutputStream(socket.getOutputStream());
         DataInputStream ois = new DataInputStream(socket.getInputStream());
