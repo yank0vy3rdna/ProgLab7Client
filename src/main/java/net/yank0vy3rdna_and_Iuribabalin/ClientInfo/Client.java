@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 public class Client {
     public void authorization(UI ui, Dispatcher dispatcher, OutputCommand out) throws NoSuchAlgorithmException, IOException {
@@ -18,6 +20,7 @@ public class Client {
         Socket socket;
         DataOutputStream oos;
         DataInputStream ois;
+        String asw = "false";
 
         while (true){
             try {
@@ -44,31 +47,56 @@ public class Client {
                     oos = new DataOutputStream(socket.getOutputStream());
                     ois = new DataInputStream(socket.getInputStream());
 
-                    oos.write(outBytes);
+                    oos.writeUTF(Arrays.toString(outBytes));
                     oos.flush();
 
-                    ui.print(ois.readUTF());
+                    byte[] bytes = toByte(ois.readUTF().split(", "));
+                    asw = new String(bytes, StandardCharsets.UTF_8);
+                    ui.print(asw);
                 }
 
-                out.setLog(ui.readUserName());
-                out.setPass(sha.SHA(ui.readPassword()));
+                while(asw.equals("false")) {
+                    out.setLog(ui.readUserName());
+                    out.setPass(sha.SHA(ui.readPassword()));
 
-                dispatcher.setLog(out.getLog());
-                dispatcher.setPass(out.getPass());
+                    dispatcher.setLog(out.getLog());
+                    dispatcher.setPass(out.getPass());
 
-                outBytes = dispatcher.serialCommand.serializable(out);
+                    outBytes = dispatcher.serialCommand.serializable(out);
 
-                oos = new DataOutputStream(socket.getOutputStream());
-                ois = new DataInputStream(socket.getInputStream());
+                    oos = new DataOutputStream(socket.getOutputStream());
+                    ois = new DataInputStream(socket.getInputStream());
 
-                oos.write(outBytes);
-                oos.flush();
+                    oos.writeUTF(Arrays.toString(outBytes));
+                    oos.flush();
 
-                ui.print(ois.readUTF());
-                break;
+                    byte[] bytes = toByte(ois.readUTF().split(", "));
+                    asw = new String(bytes, StandardCharsets.UTF_8);
+                    ui.print("Неправильный логин или пароль");
+                }
+                ui.print("Вы вошли в систему");
             }catch (ConnectException ex){
                 System.out.println("Server disconnect");
             }
         }
+    }
+
+    private byte[] toByte(String[] str){
+        byte[] bytes = new byte[str.length];
+        String s = "-";
+
+        if(str[0].split("-").length == 2){
+            s += str[0].split("-")[1];
+            str[0] = s;
+        }else{
+            str[0] = str[0].replaceAll("[^0-9]", "");
+        }
+
+        str[str.length - 1] = str[str.length - 1].split("]")[0];
+
+        for(int i = 0;i< str.length;i++){
+            bytes[i] = Byte.parseByte(str[i]);
+        }
+        return bytes;
     }
 }
