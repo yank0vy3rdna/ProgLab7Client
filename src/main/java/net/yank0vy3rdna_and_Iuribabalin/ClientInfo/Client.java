@@ -9,11 +9,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.Socket;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Client {
     public void authorization(UI ui, Dispatcher dispatcher, OutputCommand out) throws NoSuchAlgorithmException, IOException {
@@ -42,8 +43,8 @@ public class Client {
 
                 if (answ.equals("N")) {
                     socket = new Socket("127.0.0.1", 2323);
-                    out.setLog(ui.readUserName());
-                    out.setEmail(ui.readEmail());
+                    out.setLog(chekSqlIn(ui, false));
+                    out.setEmail(chekEmail(ui));
                     outBytes = dispatcher.serialCommand.serializable(out);
 
                     oos = new DataOutputStream(socket.getOutputStream());
@@ -60,9 +61,9 @@ public class Client {
                     socket.close();
                 }
                 socket = new Socket("127.0.0.1", 2323);
-                String login = ui.readUserName();
+                String login = chekSqlIn(ui,false);
                 out.setLog(login);
-                out.setPass(sha.SHA(ui.readPassword()));
+                out.setPass(sha.SHA(chekSqlIn(ui, true)));
                 dispatcher.login = login;
 
                 dispatcher.sessionID = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
@@ -109,4 +110,28 @@ public class Client {
         }
         return bytes;
     }
+
+    private String chekSqlIn(UI ui, boolean flag){
+        while(true) {
+            String str = ui.readUserName();
+            int n = str.length();
+            str = str.replaceAll("[^A-Za-z0-9]", "");
+            if (str.length() != n) {
+                ui.print("Введён косячный логин");
+            }else
+                return str;
+        }
+    }
+
+    private String chekEmail(UI ui){
+        while(true) {
+            String email = ui.readEmail();
+            Pattern p = Pattern.compile("^[\\w-\\.]+@[\\w-]+\\.[a-z]{2,4}$");
+            Matcher m = p.matcher(email);
+            if(m.matches())
+                return email;
+            ui.print("Email был сожжен на костре инквизиции");
+        }
+    }
+
 }
