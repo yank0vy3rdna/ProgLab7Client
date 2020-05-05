@@ -16,7 +16,7 @@ public class DragonReader implements TypeReader {
         this.ui = ui;
     }
 
-    public Dragon create(String id){
+    public Dragon create(String id, long owner_id){
 
         String name;
         while(true) {
@@ -189,7 +189,7 @@ public class DragonReader implements TypeReader {
                     location);
 
         }
-        Dragon dragon = new Dragon(name,coordinates,age,weight,dragonType,dragonCharacter,killer);
+        Dragon dragon = new Dragon(name,coordinates,age,weight,dragonType,dragonCharacter,killer,owner_id);
         if(id != null && !id.equals("null")){
             dragon.setId(Long.parseLong(id));
         }

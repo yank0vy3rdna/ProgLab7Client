@@ -26,6 +26,7 @@ public class App {
             OutputCommand out = new OutputCommand();
             Socket socket = new Socket();
             try {
+                out.setLog(dispatcher.login);
                 BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                 String command = ui.getNextCommand(br);
                 if(command == null){

@@ -10,6 +10,8 @@ public class OutputCommand implements Serializable {
 
     private long sessionID = 0;
 
+    private long owner_id;
+
     private String log = null;
 
     private String email = null;
@@ -23,6 +25,14 @@ public class OutputCommand implements Serializable {
     private Dragon dragon = null;
 
     private String execute_commands = null;
+
+    public long getOwner_id() {
+        return owner_id;
+    }
+
+    public void setOwner_id(long owner_id) {
+        this.owner_id = owner_id;
+    }
 
     public byte[] getPass() {
         return pass;

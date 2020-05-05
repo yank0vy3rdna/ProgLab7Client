@@ -60,9 +60,10 @@ public class Client {
                     socket.close();
                 }
                 socket = new Socket("127.0.0.1", 2323);
-
-                out.setLog(ui.readUserName());
+                String login = ui.readUserName();
+                out.setLog(login);
                 out.setPass(sha.SHA(ui.readPassword()));
+                dispatcher.login = login;
 
                 dispatcher.sessionID = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
                 out.setSessionID(dispatcher.sessionID);
@@ -81,6 +82,7 @@ public class Client {
                     ui.print("Неправильный логин или пароль");
                     continue;
                 }
+                dispatcher.owner_id = Long.parseLong(asw);
                 ui.print("Вы вошли в систему");
                 break;
             }catch (ConnectException ex){

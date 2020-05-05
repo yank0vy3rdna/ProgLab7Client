@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Dragon implements StoredType, Serializable {
-    private Integer owner_id = null;
+    private long owner_id;
     static final long serialVersionUID = -7588980448693010399L;
     private long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
@@ -69,8 +69,9 @@ public class Dragon implements StoredType, Serializable {
         this.killer = killer;
     }
 
-    public Dragon(String name, Coordinates coordinates, Long age, long weight, DragonType type, DragonCharacter character, Person killer) throws IllegalArgumentException, NullPointerException {
+    public Dragon(String name, Coordinates coordinates, Long age, long weight, DragonType type, DragonCharacter character, Person killer, long owner_id) throws IllegalArgumentException, NullPointerException {
         long id = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
+        this.owner_id = owner_id;
         LocalDateTime creationDate = java.time.LocalDateTime.now();
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Invalid name");

@@ -23,8 +23,8 @@ public class Dispatcher {
     public FileReader fileReader;
     public CheckExecuts check;
     public long sessionID = 0;
-
-
+    public long owner_id;
+    public String login;
 
     public Dispatcher(HashMap<String, ObjectExecute> commands, DragonReader reder, CommandSerializer serialCommand,
                       FileReader fileReader, CheckExecuts check){
@@ -54,7 +54,7 @@ public class Dispatcher {
 
                 ObjectExecute doComm =  commands.get(clientCommand.split(" ")[0]);
                 doComm.exec(clientCommand,this, out);
-
+                out.setLog(login);
                 out.setExecute_commands(check.check(out.getExecute_commands(), this));
 
                 System.out.println(out.getExecute_commands());

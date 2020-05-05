@@ -8,6 +8,6 @@ import java.io.IOException;
 public class UpdateObject implements ObjectExecute {
     @Override
     public void exec(String command, Dispatcher dispatcher, OutputCommand out) throws IOException {
-        out.setDragon(dispatcher.reader.create(command.split(" ")[1]));
+        out.setDragon(dispatcher.reader.create(command.split(" ")[1],dispatcher.owner_id));
     }
 }

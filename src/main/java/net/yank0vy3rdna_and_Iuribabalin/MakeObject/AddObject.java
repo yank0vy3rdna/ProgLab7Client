@@ -8,6 +8,6 @@ import java.io.IOException;
 public class AddObject implements ObjectExecute {
 
     public void exec(String command, Dispatcher dispatcher, OutputCommand out) throws IOException {
-        out.setDragon(dispatcher.reader.create("null"));
+        out.setDragon(dispatcher.reader.create("null",dispatcher.owner_id));
     }
 }

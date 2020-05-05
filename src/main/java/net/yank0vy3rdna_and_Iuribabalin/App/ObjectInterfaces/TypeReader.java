@@ -5,6 +5,6 @@ import net.yank0vy3rdna_and_Iuribabalin.App.UI;
 import java.io.Serializable;
 
 public interface TypeReader {
-    Serializable create(String id);
+    Serializable create(String id, long owner_id);
     void setUI(UI ui);
 }
