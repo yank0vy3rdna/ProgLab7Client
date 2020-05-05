@@ -33,16 +33,17 @@ public class Client {
 
                 out.setCommand("authorization");
 
-                socket = new Socket("127.0.0.1", 2323);
 
 
-                if(!answ.isEmpty() && !answ.equals("Y") && !answ.equals("N"))
+                if(!answ.isEmpty() && !answ.equals("Y") && !answ.equals("N")){
+                    ui.print("Введи что-нибудь хорошее=)");
                     continue;
+                }
 
                 if (answ.equals("N")) {
+                    socket = new Socket("127.0.0.1", 2323);
                     out.setLog(ui.readUserName());
                     out.setEmail(ui.readEmail());
-
                     outBytes = dispatcher.serialCommand.serializable(out);
 
                     oos = new DataOutputStream(socket.getOutputStream());
@@ -54,31 +55,34 @@ public class Client {
                     byte[] bytes = toByte(ois.readUTF().split(", "));
                     asw = new String(bytes, StandardCharsets.UTF_8);
                     ui.print(asw);
+                    ois.close();
+                    oos.close();
+                    socket.close();
                 }
+                socket = new Socket("127.0.0.1", 2323);
 
-                while(asw.equals("false")) {
-                    out.setLog(ui.readUserName());
-                    out.setPass(sha.SHA(ui.readPassword()));
+                out.setLog(ui.readUserName());
+                out.setPass(sha.SHA(ui.readPassword()));
 
-                    dispatcher.sessionID = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
-                    out.setSessionID(dispatcher.sessionID);
+                dispatcher.sessionID = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
+                out.setSessionID(dispatcher.sessionID);
 
-                    dispatcher.setLog(out.getLog());
-                    dispatcher.setPass(out.getPass());
+                outBytes = dispatcher.serialCommand.serializable(out);
 
-                    outBytes = dispatcher.serialCommand.serializable(out);
+                oos = new DataOutputStream(socket.getOutputStream());
+                ois = new DataInputStream(socket.getInputStream());
 
-                    oos = new DataOutputStream(socket.getOutputStream());
-                    ois = new DataInputStream(socket.getInputStream());
+                oos.writeUTF(Arrays.toString(outBytes));
+                oos.flush();
 
-                    oos.writeUTF(Arrays.toString(outBytes));
-                    oos.flush();
-
-                    byte[] bytes = toByte(ois.readUTF().split(", "));
-                    asw = new String(bytes, StandardCharsets.UTF_8);
+                byte[] bytes = toByte(ois.readUTF().split(", "));
+                asw = new String(bytes, StandardCharsets.UTF_8);
+                if(asw.equals("false")) {
                     ui.print("Неправильный логин или пароль");
+                    continue;
                 }
                 ui.print("Вы вошли в систему");
+                break;
             }catch (ConnectException ex){
                 System.out.println("Server disconnect");
             }

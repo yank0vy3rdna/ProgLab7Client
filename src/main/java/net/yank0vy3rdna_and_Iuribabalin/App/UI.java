@@ -2,6 +2,7 @@ package net.yank0vy3rdna_and_Iuribabalin.App;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class UI {
@@ -50,9 +51,9 @@ public class UI {
         return in.nextLine();
     }
 
-    public byte[] readPassword() {
+    public String readPassword() {
         System.out.print("Введите пароль: ");
-        return in.nextLine().toUpperCase().getBytes();
+        return in.nextLine();
     }
 
     public String readEmail(){

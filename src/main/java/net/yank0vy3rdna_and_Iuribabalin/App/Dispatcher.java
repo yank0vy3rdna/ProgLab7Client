@@ -24,8 +24,6 @@ public class Dispatcher {
     public CheckExecuts check;
     public long sessionID = 0;
 
-    private String log = null;
-    private byte[] pass = null;
 
 
     public Dispatcher(HashMap<String, ObjectExecute> commands, DragonReader reder, CommandSerializer serialCommand,
@@ -40,8 +38,6 @@ public class Dispatcher {
     public String dispatch(String clientCommand, Socket socket, App app,OutputCommand out) throws IOException {
         reader.setUI(new UI());
 
-        out.setLog(this.log);
-        out.setPass(this.pass);
         out.setSessionID(sessionID);
 
         DataOutputStream oos = new DataOutputStream(socket.getOutputStream());
@@ -104,13 +100,6 @@ public class Dispatcher {
     }
 
 
-    public void setPass(byte[] pass) {
-        this.pass = pass;
-    }
-
-    public void setLog(String log) {
-        this.log = log;
-    }
 
     private byte[] toByte(String[] str){
         byte[] bytes = new byte[str.length];
