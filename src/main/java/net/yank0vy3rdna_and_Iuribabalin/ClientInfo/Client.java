@@ -56,6 +56,8 @@ public class Client {
                     ui.print(asw);
                 }
 
+                asw = "false";
+
                 while(asw.equals("false")) {
                     out.setLog(ui.readUserName());
                     out.setPass(sha.SHA(ui.readPassword()));
@@ -79,6 +81,7 @@ public class Client {
                     ui.print("Неправильный логин или пароль");
                 }
                 ui.print("Вы вошли в систему");
+                break;
             }catch (ConnectException ex){
                 System.out.println("Server disconnect");
             }
