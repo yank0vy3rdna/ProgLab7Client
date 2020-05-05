@@ -92,7 +92,7 @@ public class OutputCommand implements Serializable {
         return sessionID;
     }
 
-    public void setSessionID(long in) {
+    public void setSessionID(long sessionID) {
         this.sessionID = sessionID;
     }
 }
