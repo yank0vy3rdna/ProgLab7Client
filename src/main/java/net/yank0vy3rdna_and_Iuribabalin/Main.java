@@ -15,6 +15,7 @@ import net.yank0vy3rdna_and_Iuribabalin.MakeObject.UpdateObject;
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 public class Main {
     public static void main( String[] args ) throws IOException, NoSuchAlgorithmException {
@@ -26,7 +27,10 @@ public class Main {
         commands.put("execute_script", new ExecuteScript());
 
         App app = new App(new UI(), new Dispatcher(commands,new DragonReader(), new CommandSerializer(), new FileReader(), new CheckExecuts()));
-
-        app.start();
+        try {
+            app.start();
+        }catch (NoSuchElementException ex){
+            System.out.println("Выйди нормально разбийник");
+        }
     }
 }

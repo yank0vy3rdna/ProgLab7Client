@@ -27,7 +27,6 @@ public class Client {
         while (true){
             try {
                 System.out.print("У вас есть учетная запись [Y/N]");
-
                 byte[] outBytes;
 
                 String answ = ui.read().toUpperCase();
@@ -112,8 +111,12 @@ public class Client {
     }
 
     private String chekSqlIn(UI ui, boolean flag){
+        String str;
         while(true) {
-            String str = ui.readUserName();
+            if(!flag)
+                str = ui.readUserName();
+            else
+                str = ui.readPassword();
             int n = str.length();
             str = str.replaceAll("[^A-Za-z0-9]", "");
             if (str.length() != n) {
