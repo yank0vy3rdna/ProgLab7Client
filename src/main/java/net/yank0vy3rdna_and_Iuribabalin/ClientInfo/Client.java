@@ -33,17 +33,17 @@ public class Client {
 
                 out.setCommand("authorization");
 
-
-
                 if(!answ.isEmpty() && !answ.equals("Y") && !answ.equals("N")){
-                    ui.print("Введи что-нибудь хорошее=)");
+                    ui.print("Я уёду сейчас, потому что ты не можешь нажать пробедл" +
+                            " или ввесли букву Y или N");
                     continue;
                 }
 
                 if (answ.equals("N")) {
                     socket = new Socket("127.0.0.1", 2323);
                     out.setLog(chekSqlIn(ui, false));
-                    out.setEmail(chekEmail(ui));
+                    out.setPass(sha.SHA(chekSqlIn(ui, true)));
+
                     outBytes = dispatcher.serialCommand.serializable(out);
 
                     oos = new DataOutputStream(socket.getOutputStream());
@@ -120,7 +120,10 @@ public class Client {
             int n = str.length();
             str = str.replaceAll("[^A-Za-z0-9]", "");
             if (str.length() != n) {
-                ui.print("Введён косячный логин");
+                if(!flag)
+                    ui.print("Введён косячный логин");
+                else
+                    ui.print("Введён косячный пароль, не используйте символы '[]/.;<>,'");
             }else
                 return str;
         }
