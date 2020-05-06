@@ -25,6 +25,7 @@ public class Dispatcher {
     public long sessionID = 0;
     public long owner_id;
     public String login;
+    public  byte[] pass;
 
     public Dispatcher(HashMap<String, ObjectExecute> commands, DragonReader reder, CommandSerializer serialCommand,
                       FileReader fileReader, CheckExecuts check){
@@ -37,6 +38,9 @@ public class Dispatcher {
 
     public String dispatch(String clientCommand, Socket socket, App app,OutputCommand out) throws IOException {
         reader.setUI(new UI());
+
+        out.setPass(pass);
+        out.setLog(login);
 
         out.setSessionID(sessionID);
 

@@ -62,8 +62,11 @@ public class Client {
                 socket = new Socket("127.0.0.1", 2323);
                 String login = chekSqlIn(ui,false);
                 out.setLog(login);
-                out.setPass(sha.SHA(chekSqlIn(ui, true)));
+                byte[] pass= sha.SHA(chekSqlIn(ui, true));
+                out.setPass(pass);
+
                 dispatcher.login = login;
+                dispatcher.pass = pass;
 
                 dispatcher.sessionID = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
                 out.setSessionID(dispatcher.sessionID);
