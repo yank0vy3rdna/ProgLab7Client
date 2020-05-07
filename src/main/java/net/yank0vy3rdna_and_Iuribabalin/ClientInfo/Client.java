@@ -33,33 +33,37 @@ public class Client {
 
 
                 if(!answ.isEmpty() && !answ.equals("Y") && !answ.equals("N")){
-                    ui.print("Я уёду сейчас, потому что ты не можешь нажать ентер" +
+                    ui.print("Я уёду сейчас, потому что ты не можешь нажать enter" +
                             " или ввесли букву Y или N");
                     continue;
                 }
 
                 if (answ.equals("N")) {
-                    out.setCommand("registration");
-                    socket = new Socket("127.0.0.1", 2323);
-                    out.setLog(chekSqlIn(ui, false));
-                    out.setPass(sha.SHA(chekSqlIn(ui, true)));
+                    while(!asw.equals("Регистрация завершена")) {
+                        ui.print("Регистрация начата");
+                        out.setCommand("registration");
+                        socket = new Socket("127.0.0.1", 2323);
+                        out.setLog(chekSqlIn(ui, false));
+                        out.setPass(sha.SHA(chekSqlIn(ui, true)));
 
-                    outBytes = dispatcher.serialCommand.serializable(out);
+                        outBytes = dispatcher.serialCommand.serializable(out);
 
-                    oos = new DataOutputStream(socket.getOutputStream());
-                    ois = new DataInputStream(socket.getInputStream());
+                        oos = new DataOutputStream(socket.getOutputStream());
+                        ois = new DataInputStream(socket.getInputStream());
 
-                    oos.writeUTF(Arrays.toString(outBytes));
-                    oos.flush();
+                        oos.writeUTF(Arrays.toString(outBytes));
+                        oos.flush();
 
-                    byte[] bytes = toByte(ois.readUTF().split(", "));
-                    asw = new String(bytes, StandardCharsets.UTF_8);
-                    ui.print(asw);
-                    ois.close();
-                    oos.close();
-                    socket.close();
+                        byte[] bytes = toByte(ois.readUTF().split(", "));
+                        asw = new String(bytes, StandardCharsets.UTF_8);
+                        ui.print(asw);
+                        ois.close();
+                        oos.close();
+                        socket.close();
+                    }
                 }
                 socket = new Socket("127.0.0.1", 2323);
+                ui.print("Вход в систему");
                 String login = chekSqlIn(ui,false);
                 out.setCommand("authorization");
                 out.setLog(login);
