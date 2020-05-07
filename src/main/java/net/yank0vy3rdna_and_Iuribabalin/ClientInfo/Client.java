@@ -26,20 +26,20 @@ public class Client {
 
         while (true){
             try {
-                System.out.print("У вас есть учетная запись [Y/N]");
+                System.out.print("У вас есть учетная запись [Y/n]");
                 byte[] outBytes;
 
                 String answ = ui.read().toUpperCase();
 
-                out.setCommand("authorization");
 
                 if(!answ.isEmpty() && !answ.equals("Y") && !answ.equals("N")){
-                    ui.print("Я уёду сейчас, потому что ты не можешь нажать пробедл" +
+                    ui.print("Я уёду сейчас, потому что ты не можешь нажать ентер" +
                             " или ввесли букву Y или N");
                     continue;
                 }
 
                 if (answ.equals("N")) {
+                    out.setCommand("registration");
                     socket = new Socket("127.0.0.1", 2323);
                     out.setLog(chekSqlIn(ui, false));
                     out.setPass(sha.SHA(chekSqlIn(ui, true)));
@@ -61,6 +61,7 @@ public class Client {
                 }
                 socket = new Socket("127.0.0.1", 2323);
                 String login = chekSqlIn(ui,false);
+                out.setCommand("authorization");
                 out.setLog(login);
                 byte[] pass= sha.SHA(chekSqlIn(ui, true));
                 out.setPass(pass);
